@@ -16,3 +16,28 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: notify-slack
+        run: |
+          curl https://slack.com/api/chat.postMessage \
+          -X POST --fail --silent --show-error \
+          -H "Authorization: Bearer ${SLACK_TOKEN}" \
+          -H "Content-type: application/json; charset=utf-8" \
+          --data @<(yq -pjson -ojson '.channel = env(SLACK_CHANNEL) | .blocks[0].text.text = env(MESSAGE)' <<'EOF'
+          {
+            "channel": "",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ""
+                }
+              }
+            ]
+          }
+          EOF
+          ) >/dev/null
+        env:
+          SLACK_CHANNEL: "${{ secrets.SLACK_CHANNEL }}"
+          SLACK_TOKEN: "${{ secrets.SLACK_TOKEN }}"
+          MESSAGE: "🍏 This job's status is *${{ job.status }}*."
