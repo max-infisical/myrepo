@@ -5,20 +5,17 @@ jobs:
     environment:
       name: dev
     runs-on: ubuntu-latest
-    continue-on-error: true
-    outputs:
-      actualResult: ${{ steps.deploy.outcome }}
     steps:
       - uses: actions/checkout@v4
       - run: echo build and push
       - id: deploy
         run: echo deploy && false
-      - if: ${{ always() }}
-        uses: ./.github/actions/notify-slack
+      # only notify of success because continue-on-error is so tricky, see https://www.kenmuse.com/blog/how-to-handle-step-and-job-errors-in-github-actions/
+      - uses: ./.github/actions/notify-slack
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           channel: ${{ secrets.SLACK_CHANNEL }}
-          message: status of deployment of ${{ github.sha }} to ${{ vars.ENV }} is ${{ steps.deploy.outcome }}
+          message: deployed ${{ github.sha }} to ${{ vars.ENV }}
 
   hello-nearlyprod:
     environment:
