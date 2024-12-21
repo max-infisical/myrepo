@@ -18,7 +18,7 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: notify-slack
         run: |
-          tag=$(git rev-parse --ref HEAD | cut -c -7)
+          tag=$(git rev-parse HEAD | cut -c 1-7)
           export MESSAGE="deployed ${tag} to maxtest-us"
 
           curl https://slack.com/api/chat.postMessage \
