@@ -18,6 +18,9 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: notify-slack
         run: |
+          tag=$(git rev-parse --ref HEAD | cut -c -7)
+          export MESSAGE="deployed ${tag} to maxtest-us"
+
           curl https://slack.com/api/chat.postMessage \
           -X POST --fail --silent --show-error \
           -H "Authorization: Bearer ${SLACK_TOKEN}" \
@@ -40,4 +43,3 @@ jobs:
         env:
           SLACK_CHANNEL: "${{ secrets.SLACK_CHANNEL }}"
           SLACK_TOKEN: "${{ secrets.SLACK_TOKEN }}"
-          MESSAGE: "🍏 This job's status is *${{ job.status }}*."
