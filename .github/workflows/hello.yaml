@@ -6,15 +6,19 @@ jobs:
       name: dev
     runs-on: ubuntu-latest
     continue-on-error: true
+    outputs:
+      actualResult: ${{ steps.deploy.outcome }}
     steps:
       - uses: actions/checkout@v4
       - run: echo build and push
-      - run: 'false'
-      - uses: ./.github/actions/notify-slack
+      - id: deploy
+        run: echo deploy && false
+      - if: ${{ always() }}
+        uses: ./.github/actions/notify-slack
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           channel: ${{ secrets.SLACK_CHANNEL }}
-          message: status of deployment of ${{ github.sha }} to ${{ vars.ENV }} is ${{ job.status }}
+          message: status of deployment of ${{ github.sha }} to ${{ vars.ENV }} is ${{ steps.deploy.outcome }}
 
   hello-nearlyprod:
     environment:
