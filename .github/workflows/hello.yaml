@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo build and push
-      - run: echo deploy
+      - run: 'false'
       - uses: ./.github/actions/notify-slack
         with:
           token: ${{ secrets.SLACK_TOKEN }}
