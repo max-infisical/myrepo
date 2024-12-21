@@ -30,4 +30,4 @@ jobs:
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           channel: ${{ secrets.SLACK_CHANNEL }}
-          message: status of deployment of ${{ github.sha }} to ${{ vars.ENV }} is ${{ job.status }}
+          message: deployed ${{ github.sha }} to ${{ vars.ENV }}
