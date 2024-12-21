@@ -13,6 +13,7 @@ inputs:
 runs:
   using: composite
   steps:
+    # see https://api.slack.com/tutorials/tracks/posting-messages-with-curl#let-us-hello-then__making-your-messages-more-fantastic
     - name: notify-slack
       shell: bash
       run: |
