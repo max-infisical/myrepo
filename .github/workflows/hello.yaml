@@ -6,6 +6,7 @@ jobs:
       name: dev
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: echo build and push
       - run: echo deploy
       - uses: ./.github/actions/notify-slack
@@ -19,6 +20,7 @@ jobs:
       name: nearlyprod
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: echo build and push
       - run: echo deploy
       - uses: ./.github/actions/notify-slack
@@ -26,4 +28,3 @@ jobs:
           token: ${{ secrets.SLACK_TOKEN }}
           channel: ${{ secrets.SLACK_CHANNEL }}
           message: status of deployment of ${{ github.sha }} to ${{ vars.ENV }} is ${{ job.status }}
-
