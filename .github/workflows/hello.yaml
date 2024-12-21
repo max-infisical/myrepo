@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo build and push
       - id: deploy
-        run: echo deploy && false
+        run: echo deploy
       # only notify of success because continue-on-error is so tricky, see https://www.kenmuse.com/blog/how-to-handle-step-and-job-errors-in-github-actions/
       - uses: ./.github/actions/notify-slack
         with:
